@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 363647625}
   - component: {fileID: 363647624}
   - component: {fileID: 363647627}
-  - component: {fileID: 363647628}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -237,40 +236,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &363647628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 363647623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
-  m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
-  m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
-    m_CustomCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
-  m_CameraCutEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_CameraActivatedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &467322952
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,7 +608,7 @@ PrefabInstance:
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.16119021
+      value: -0.03099161
       objectReference: {fileID: 0}
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
@@ -653,7 +618,7 @@ PrefabInstance:
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9869234
+      value: 0.9995197
       objectReference: {fileID: 0}
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
@@ -668,7 +633,7 @@ PrefabInstance:
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -18.552
+      value: -3.5520003
       objectReference: {fileID: 0}
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
@@ -1009,7 +974,7 @@ PrefabInstance:
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.37
+      value: -2.3
       objectReference: {fileID: 0}
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
@@ -1019,7 +984,7 @@ PrefabInstance:
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.41
+      value: 4.7
       objectReference: {fileID: 0}
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
@@ -1029,7 +994,7 @@ PrefabInstance:
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.49687243
+      value: -0.5773641
       objectReference: {fileID: 0}
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
@@ -1039,7 +1004,7 @@ PrefabInstance:
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.86782366
+      value: 0.8164869
       objectReference: {fileID: 0}
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
@@ -1054,7 +1019,7 @@ PrefabInstance:
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -59.587
+      value: -70.531006
       objectReference: {fileID: 0}
     - target: {fileID: 3992576095316929981, guid: efa9c5aed05da9b4e814514598f0822a,
         type: 3}

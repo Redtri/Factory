@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -14,6 +16,7 @@ public class Portal : MonoBehaviour
     public Portal other;
     
     [HideInInspector] public UniversalAdditionalCameraData camData;
+    private Camera mainCam;
     
     // Start is called before the first frame update
     void Start()
@@ -23,6 +26,7 @@ public class Portal : MonoBehaviour
 
     private void Init()
     {
+        mainCam = Camera.main;
         camData = cam.GetComponent<UniversalAdditionalCameraData>();
         camData.cameraOutput = CameraOutput.Texture;
         cam.targetTexture = camRender;
@@ -37,11 +41,19 @@ public class Portal : MonoBehaviour
 
     private void UpdateCam()
     {
-        Matrix4x4 mat = transform.localToWorldMatrix * other.transform.localToWorldMatrix * Pawn.instance.cam.transform.localToWorldMatrix;
-        
-        cam.transform.SetPositionAndRotation(mat.GetColumn(2), mat.rotation);
+        Vector3 offsetWorld = other.transform.position - mainCam.transform.position;
+        Vector3 offsetLocal = other.transform.InverseTransformDirection(offsetWorld);
+
+        cam.transform.localPosition = offsetLocal;
+        cam.transform.LookAt(transform.position);
     }
-    
+
+    private void OnDrawGizmos()
+    {
+        Handles.color = Color.green;
+        Debug.DrawLine(transform.position, transform.position + transform.forward*10f);
+    }
+
     private void BindCamTexture()
     {
         if(other)
