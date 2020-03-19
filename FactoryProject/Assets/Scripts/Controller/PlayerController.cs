@@ -12,9 +12,14 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector] public bool jumpInput;
 
-    // Start is called before the first frame update
-    void Start()
+    public static PlayerController instance;
+
+    private void Awake()
     {
+        if (!instance)
+            instance = this;
+        else
+            Destroy(gameObject);
     }
 
     private void OnEnable()

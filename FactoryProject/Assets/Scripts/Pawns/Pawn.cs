@@ -18,8 +18,19 @@ public class Pawn : MonoBehaviour
 
     private float xRotation = 0f;
 
+    public static Pawn instance;
+
+    private void Awake()
+    {
+        if (!instance)
+            instance = this;
+        else
+            Destroy(gameObject);
+    }
+    
     private void Start()
     {
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
