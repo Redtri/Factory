@@ -9,14 +9,14 @@ public class Portal : MonoBehaviour
 {
     [Header("PARAMETERS")]
     public Camera cam;
-    public RenderTexture camRender;
-    public MeshRenderer portalMesh;
+    public MeshRenderer portalScreen;
 
     [Header("COMPONENTS")]
     public Portal other;
     
     [HideInInspector] public UniversalAdditionalCameraData camData;
     private Camera mainCam;
+    private RenderTexture camRenderTexture;
     
     // Start is called before the first frame update
     void Start()
@@ -29,7 +29,7 @@ public class Portal : MonoBehaviour
         mainCam = Camera.main;
         camData = cam.GetComponent<UniversalAdditionalCameraData>();
         camData.cameraOutput = CameraOutput.Texture;
-        cam.targetTexture = camRender;
+        cam.targetTexture = camRenderTexture;
     }
 
     private void OnDestroy()
@@ -45,19 +45,19 @@ public class Portal : MonoBehaviour
 
     private void UpdateCam()
     {
-        if (!camRender || camRender.width != Screen.width || camRender.height != Screen.height)
+        if (!camRenderTexture || camRenderTexture.width != Screen.width || camRenderTexture.height != Screen.height)
         {
-            if (camRender != null)
+            if (camRenderTexture != null)
             {
-                camRender.Release();
+                camRenderTexture.Release();
             }
-            camRender = new RenderTexture(Screen.width, Screen.height, 32);
-            cam.targetTexture = camRender;
+            camRenderTexture = new RenderTexture(Screen.width, Screen.height, 32);
+            cam.targetTexture = camRenderTexture;
         }
         BindCamTexture();
         
-        Vector3 offsetWorld = other.transform.position - mainCam.transform.position;
-        Vector3 offsetLocal = other.transform.InverseTransformDirection(offsetWorld);
+        //Vector3 offsetWorld = other.transform.position - mainCam.transform.position;
+        //Vector3 offsetLocal = other.transform.InverseTransformDirection(offsetWorld);
 
         if (other != null)
         {
@@ -72,15 +72,15 @@ public class Portal : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Handles.color = Color.green;
         Debug.DrawLine(transform.position, transform.position + transform.forward*10f);
     }
 
     private void BindCamTexture()
     {
-        if(other)
-            portalMesh.material.SetTexture("CameraTexture", other.camRender);
-        else
-            portalMesh.material.SetTexture("CameraTexture", camRender);
+        //Rendering the view form the other portal on the mesh
+        if (other)
+        {
+            portalScreen.material.SetTexture("CameraTexture", other.camRenderTexture);
+        }
     }
 }
