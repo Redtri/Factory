@@ -30,7 +30,11 @@ public class Portal : MonoBehaviour
         camData = cam.GetComponent<UniversalAdditionalCameraData>();
         camData.cameraOutput = CameraOutput.Texture;
         cam.targetTexture = camRender;
-        BindCamTexture();
+    }
+
+    private void OnDestroy()
+    {
+        cam.targetTexture?.Release();
     }
 
     // Update is called once per frame
@@ -41,11 +45,29 @@ public class Portal : MonoBehaviour
 
     private void UpdateCam()
     {
+        if (!camRender || camRender.width != Screen.width || camRender.height != Screen.height)
+        {
+            if (camRender != null)
+            {
+                camRender.Release();
+            }
+            camRender = new RenderTexture(Screen.width, Screen.height, 32);
+            cam.targetTexture = camRender;
+        }
+        BindCamTexture();
+        
         Vector3 offsetWorld = other.transform.position - mainCam.transform.position;
         Vector3 offsetLocal = other.transform.InverseTransformDirection(offsetWorld);
 
+        if (other != null)
+        {
+            Matrix4x4 mat = transform.localToWorldMatrix * other.transform.worldToLocalMatrix * mainCam.transform.localToWorldMatrix;
+            cam.transform.SetPositionAndRotation(mat.GetColumn(3), mat.rotation);
+        }
+        /*
         cam.transform.localPosition = offsetLocal;
         cam.transform.LookAt(transform.position);
+        */
     }
 
     private void OnDrawGizmos()
