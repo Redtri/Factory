@@ -17,6 +17,9 @@ public class Pawn : MonoBehaviour
     public Camera cam;
 
     private float xRotation = 0f;
+    private bool teleporting;
+    private Transform fromPortal;
+    private Transform toPortal;
 
     public static Pawn instance;
 
@@ -61,5 +64,18 @@ public class Pawn : MonoBehaviour
         
         cam.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * xLook);
+    }
+
+    public IEnumerator Teleport(Portal from, Portal to)
+    {
+        if (!teleporting)
+        {
+            teleporting = true;
+            fromPortal = from.transform;
+            toPortal = to.transform;
+            yield return new WaitForSeconds(.1f);
+            teleporting = false;
+        }
+        yield return null;
     }
 }
