@@ -56,7 +56,7 @@ public class AppearRandom : MonoBehaviour
             }
             else
             {
-                appeared = true;
+                appeared = false;
                 appearing = false;
                 transform.position = finalPosition;
                 transform.rotation = Quaternion.Euler(finalRotation);
@@ -68,7 +68,6 @@ public class AppearRandom : MonoBehaviour
     {
         if (!appearing && !appeared)
         {
-            print("appear");
             duration = Random.Range(durationRange.x, durationRange.y);
             finalPosition = transform.position;
             finalRotation = transform.rotation.eulerAngles;
