@@ -48,8 +48,10 @@ public class Portal : MonoBehaviour
         UpdateCam();
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
+        if(travellers.Count > 0)
+            Debug.Log(name + " containing travellers");
         for (int i = 0; i < travellers.Count; i++)
         {
             TravelEntity entity = travellers[i];
@@ -61,16 +63,17 @@ public class Portal : MonoBehaviour
             int newSign = Math.Sign(Vector3.Dot(newOffset, transform.forward));
 
             if (oldSign != newSign) {
-                Matrix4x4 mat = otherPortal.transform.localToWorldMatrix * transform.worldToLocalMatrix * entityT.localToWorldMatrix;
-                entity.Teleport(transform, otherPortal.transform, mat.GetColumn(3), mat.rotation);
+                //Debug.Log("Old was : " + oldSign + ". New is " + newSign);
+                    Matrix4x4 mat = otherPortal.transform.localToWorldMatrix * transform.worldToLocalMatrix * entityT.localToWorldMatrix;
+                    entity.Teleport(transform, otherPortal.transform, mat.GetColumn(3), mat.rotation);
                 
-                otherPortal.OnTravellerEnter(entity);
-                travellers.RemoveAt(i);
-                i--;
+                    otherPortal.OnTravellerEnter(entity);
+                    travellers.RemoveAt(i);
+                    i--;
             }else
                 entity.prevOffsetToPortal = newOffset;
         }
-        //ProtectScreenFromClipping(mainCam.transform.position);
+        ProtectScreenFromClipping(mainCam.transform.position);
     }
 
     private void UpdateCam()
@@ -115,12 +118,12 @@ public class Portal : MonoBehaviour
         return screenThickness;
     }
 
-    private void OnTravellerEnter(TravelEntity entity)
+    public void OnTravellerEnter(TravelEntity entity)
     {
         Debug.Log("Traveller enters " + name);
         if (!travellers.Contains(entity)) {
-            entity.prevOffsetToPortal = entity.transform.position - transform.position;
             travellers.Add(entity);
+            entity.prevOffsetToPortal = entity.transform.position - transform.position;
         }
     }
 

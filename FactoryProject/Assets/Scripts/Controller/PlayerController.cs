@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
     public PlayerInput playerInput;
     [HideInInspector] public Vector2 movementInput;
     [HideInInspector] public Vector2 lookInput;
-
+    [HideInInspector] public bool interactInput;
+    
     [HideInInspector] public bool jumpInput;
 
     public static PlayerController instance;
@@ -30,7 +31,10 @@ public class PlayerController : MonoBehaviour
         //Look input listener
         playerInput.currentActionMap["Look"].performed += OnLook;
         playerInput.currentActionMap["Look"].canceled += OnLook;
-        
+        //Interact input listener
+        playerInput.currentActionMap["Interact"].performed += OnInteract;
+        playerInput.currentActionMap["Interact"].canceled += OnInteract;
+
         //playerInput.currentActionMap["OnLook"].performed += OnJump;
     }
 
@@ -42,6 +46,11 @@ public class PlayerController : MonoBehaviour
     private void OnLook(InputAction.CallbackContext value)
     {
         lookInput = value.ReadValue<Vector2>();
+    }
+
+    private void OnInteract(InputAction.CallbackContext value)
+    {
+        interactInput = !interactInput;
     }
 
     private void OnJump(InputAction.CallbackContext value)

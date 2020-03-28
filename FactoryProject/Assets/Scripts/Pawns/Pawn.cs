@@ -16,10 +16,14 @@ public class Pawn : MonoBehaviour
     public CharacterController characterController;
     public Camera cam;
 
+    private Pickable pickable;
+
     private float xRotation = 0f;
     private bool teleporting;
     private Transform fromPortal;
     private Transform toPortal;
+
+    private bool wasInteracting;
 
     public static Pawn instance;
 
@@ -36,11 +40,17 @@ public class Pawn : MonoBehaviour
         Cursor.visible = false;
     }
 
+    private void Init()
+    {
+        wasInteracting = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
         Look();
         Move();
+        Pick();
     }
 
     private void Move()
@@ -66,6 +76,36 @@ public class Pawn : MonoBehaviour
         transform.Rotate(Vector3.up * xLook);
     }
 
+    private void Pick()
+    {
+        if (controller.interactInput != wasInteracting)
+        {
+            if (wasInteracting)
+            {
+                if (pickable != null)
+                {
+                    pickable.Release();
+                }
+            } else
+            {
+                RaycastHit hit;
+
+                if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 10f))
+                {
+                    Pickable pick;
+                    hit.collider.TryGetComponent<Pickable>(out pick);
+
+                    if (pick)
+                    {
+                        pickable = pick;
+                        pickable.Pick(cam.transform);
+                    }
+                }
+            }
+            wasInteracting = controller.interactInput;
+        }
+    }
+    
     public IEnumerator Teleport(Portal from, Portal to)
     {
         if (!teleporting)

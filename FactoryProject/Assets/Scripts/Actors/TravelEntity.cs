@@ -1,10 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TravelEntity : MonoBehaviour
 {
     public Vector3 prevOffsetToPortal { get; set; }
+
+    private void Start()
+    {
+        Init();
+    }
+
+    private void Init()
+    {
+    }
 
     public virtual void Teleport(Transform srcPortal, Transform destPortal, Vector3 pos, Quaternion rot)
     {
