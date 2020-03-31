@@ -58,6 +58,7 @@ public class Pawn : MonoBehaviour
     private bool switched;
     private void Move()
     {
+        //TODO : Check slope limit on CharacterController
         float xMove = controller.movementInput.x;
         float yMove = controller.movementInput.y;
         
