@@ -26,14 +26,12 @@ public class Pickable : MonoBehaviour
 
     private void Update()
     {
+        float newFrustumHeight = 2.0f * Vector3.Distance(Camera.main.gameObject.transform.position, transform.position) * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
+        float scaleFactor = newFrustumHeight / originalFrustumHeight;
+        gameObject.transform.localScale = originalScale * scaleFactor;
         if (picked)
         {
-            float newFrustumHeight = 2.0f * Vector3.Distance(Camera.main.gameObject.transform.position, transform.position) * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
-            float scaleFactor = newFrustumHeight / originalFrustumHeight;
-            gameObject.transform.localScale = originalScale * scaleFactor;
         }
-        
-        
     }
 
     public void Pick(Transform trsf)

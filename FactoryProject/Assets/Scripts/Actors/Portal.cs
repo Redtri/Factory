@@ -73,7 +73,7 @@ public class Portal : MonoBehaviour
             }else
                 entity.prevOffsetToPortal = newOffset;
         }
-        ProtectScreenFromClipping(mainCam.transform.position);
+        //ProtectScreenFromClipping(mainCam.transform.position);
     }
 
     private void UpdateCam()

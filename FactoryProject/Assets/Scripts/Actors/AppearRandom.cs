@@ -48,7 +48,10 @@ public class AppearRandom : MonoBehaviour
 
                 if (mesh)
                 {
-                    mesh.material.SetFloat("Percent", 1f-(percent));
+                    foreach (Material mat in mesh.materials)
+                    {
+                        mat.SetFloat("Percent", 1f-(percent));
+                    }
                 }
                 
                 transform.position = Vector3.Lerp(startPosition, finalPosition, percent);
