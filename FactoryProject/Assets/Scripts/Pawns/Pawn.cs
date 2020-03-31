@@ -15,7 +15,7 @@ public class Pawn : MonoBehaviour
     
     [Header("COMPONENTS")]
     public PlayerController controller;
-    public CharacterController characterController;
+    public Rigidbody rigidBody;
     public Camera cam;
 
     private Pickable pickable;
@@ -62,10 +62,11 @@ public class Pawn : MonoBehaviour
         float yMove = controller.movementInput.y;
         
         Vector3 movement = transform.right * xMove + transform.forward * yMove;
-        movement *= moveSpeed * Time.deltaTime;
+        movement *= moveSpeed * Time.fixedDeltaTime;
 
         RaycastHit hit;
 
+        /*
         if (Physics.Raycast(transform.position, transform.forward, out hit,2f))
         {
             MeshCollider meshCollider = hit.collider as MeshCollider;
@@ -90,12 +91,15 @@ public class Pawn : MonoBehaviour
             Vector3 center = new Vector3((p0.x + p1.x + p2.x)/3, (p0.y + p1.y + p2.y)/3, (p0.z + p1.z + p2.z)/3);
             
             Debug.DrawLine(center, center + forward * 10f, Color.cyan);
-                //transform.rotation = Quaternion.FromToRotation(Vector3.up, -forward);
+            //transform.rotation = Quaternion.FromToRotation(Vector3.up, -forward);
             //transform.Rotate(forward);
             //Debug.DrawLine(hit.collider.transform.position, hit.collider.transform.position + hit.collider.transform.forward * 10f);
-        }
+        }*/
+        Vector3 newVelocity = rigidBody.velocity + movement;
+        newVelocity = new Vector3(Mathf.Clamp(movement.x, -moveSpeed, moveSpeed), rigidBody.velocity.y, Mathf.Clamp(movement.z, -moveSpeed, moveSpeed));
+        rigidBody.velocity = newVelocity;
         
-        characterController.Move(movement);
+        Debug.Log(rigidBody.velocity);
     }
 
     private void Look()
