@@ -48,7 +48,7 @@ public class Portal : MonoBehaviour
         UpdateCam();
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if(travellers.Count > 0)
             Debug.Log(name + " containing travellers");

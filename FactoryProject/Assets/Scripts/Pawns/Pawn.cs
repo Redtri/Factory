@@ -12,10 +12,11 @@ public class Pawn : MonoBehaviour
     public Vector2 clampLook;
 
     public float moveSpeed;
+    public float normalInterp;
     
     [Header("COMPONENTS")]
     public PlayerController controller;
-    public CharacterController characterController;
+    public Rigidbody rigidBody;
     public Camera cam;
 
     private Pickable pickable;
@@ -55,18 +56,23 @@ public class Pawn : MonoBehaviour
         Pick();
     }
 
-    private bool switched;
+    private float interpTime;
+    private Vector3 lastNormal;
+    private Quaternion baseRotation;
     private void Move()
     {
+        //TODO : Check slope limit on CharacterController
         float xMove = controller.movementInput.x;
         float yMove = controller.movementInput.y;
         
         Vector3 movement = transform.right * xMove + transform.forward * yMove;
-        movement *= moveSpeed * Time.deltaTime;
+        movement *= moveSpeed * Time.fixedDeltaTime;
 
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit,2f))
+        
+        Debug.DrawLine(transform.position, transform.position +(-transform.up + transform.forward*2f) * 4f, Color.red);
+        if (Physics.Raycast(transform.position, -transform.up + transform.forward*2f, out hit,4f))
         {
             MeshCollider meshCollider = hit.collider as MeshCollider;
             if (!meshCollider || !meshCollider.sharedMesh)
@@ -87,15 +93,38 @@ public class Pawn : MonoBehaviour
             Debug.DrawLine(p2, p0, Color.red);
 
             Vector3 forward = hit.normal;
+            if (forward != lastNormal)
+            {
+                interpTime = Time.time;
+                baseRotation = transform.rotation;
+                lastNormal = forward;
+            }
             Vector3 center = new Vector3((p0.x + p1.x + p2.x)/3, (p0.y + p1.y + p2.y)/3, (p0.z + p1.z + p2.z)/3);
             
             Debug.DrawLine(center, center + forward * 10f, Color.cyan);
-                //transform.rotation = Quaternion.FromToRotation(Vector3.up, -forward);
+            Debug.DrawLine(center, center + Vector3.up * 10f, Color.cyan);
+            //transform.rotation = Quaternion.FromToRotation(Vector3.up, -forward);
             //transform.Rotate(forward);
             //Debug.DrawLine(hit.collider.transform.position, hit.collider.transform.position + hit.collider.transform.forward * 10f);
+            //rigidBody.AddForce(Vector3.Normalize(hit.normal - transform.position) * rigidBody.mass * Physics.gravity.magnitude * Time.fixedDeltaTime);
+            Physics.gravity = - hit.normal * 10f;
+            Quaternion rotation;
+            if (Time.time - interpTime > normalInterp)
+            {
+                rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            }
+            else
+            {
+                rotation = Quaternion.Lerp(baseRotation, Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation, (Time.time-interpTime)/normalInterp);
+            }
+            
+            transform.rotation = rotation;
+            Debug.DrawLine(center, center - hit.normal * 10f, Color.green);
         }
-        
-        characterController.Move(movement);
+        Vector3 newVelocity = transform.TransformDirection(movement);
+        newVelocity = new Vector3(Mathf.Clamp(movement.x, -moveSpeed, moveSpeed), Mathf.Clamp(movement.y, -moveSpeed, moveSpeed), Mathf.Clamp(movement.z, -moveSpeed, moveSpeed));
+        Debug.DrawLine(transform.position, transform.position + newVelocity, Color.black);
+        rigidBody.MovePosition(transform.position + newVelocity);
     }
 
     private void Look()
